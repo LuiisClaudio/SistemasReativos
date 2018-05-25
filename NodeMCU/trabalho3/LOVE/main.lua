@@ -25,6 +25,7 @@ function love.load()
   mqtt_client = mqtt.client.create("test.mosquitto.org", 1883, mqttcb)
   mqtt_client:connect("meuidreativo")
   mqtt_client:subscribe({"ApertouA"})
+  mqtt_client:subscribe({"localizacao"})
 end
 
 

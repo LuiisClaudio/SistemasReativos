@@ -13,11 +13,7 @@ local meusleds = {led1, led2}
 local button1 = 1
 local led1 = 3
 local antigo = 0
-
-
-gpio.mode(button1, gpio.INT, gpio.PULLUP)
-gpio.trig(button1, "down", button_pressed)
-
+ultimo = 0
 
 string_localizacao = "vazio"
 local meuid = "meuidreativo"
@@ -75,7 +71,7 @@ function usaGoogleApi()
       print("stringLocalização = ",string_localizacao)
       
       --publica(c,"[Teste de mensagem: "..string_localizacao.." ]")
-      m:publish("localizacao",string_localizacao,0,0, function(client) end)
+      m:publish("localizacao",string_localizacao,0,0, function(client) print("UsaGoogleApi over") end)
     end)
 
        
@@ -179,7 +175,6 @@ function apertou_botao (alarme)
     return "Nao passou o intervalo"
   end
   ultimo = agora
-  wifi.sta.getap(listap)
   usaGoogleApi()
 end
 gpio.trig(alarme1, "down", apertou_botao)

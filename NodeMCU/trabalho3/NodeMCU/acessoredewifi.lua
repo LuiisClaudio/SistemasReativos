@@ -2,8 +2,8 @@ cont = 0
 IP = nil
     wificonf = {
       -- verificar ssid e senha
-      ssid = "AndroidAP",
-      pwd = "asdf1234",
+      ssid = "Wire",
+      pwd = "934ceara",
       save = false
     }
     
