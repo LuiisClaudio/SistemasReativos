@@ -1,0 +1,79 @@
+{
+	"WifiAccessPoints": [
+		{
+			"macAddress": "f4:6d:04:5d:75:bc",
+			"signalStrength": 	-73	,
+			"channel": 	11	
+		},
+		{
+			"macAddress": "f8:1a:67:a4:bc:80",
+			"signalStrength": 	-68	,
+			"channel": 	4	
+		},
+		{
+			"macAddress": "50:92:b9:09:d1:a2",
+			"signalStrength": 	-60	,
+			"channel": 	11	
+		},
+		{
+			"macAddress": "64:e9:50:11:df:50",
+			"signalStrength": 	-87	,
+			"channel": 	11	
+		},
+		{
+			"macAddress": "50:c7:bf:86:a7:9e",
+			"signalStrength": 	-80	,
+			"channel": 	5	
+		},
+		{
+			"macAddress": "64:e9:50:11:df:51",
+			"signalStrength": 	-87	,
+			"channel": 	11	
+		},
+		{
+			"macAddress": "64:70:02:93:e4:44",
+			"signalStrength": 	-72	,
+			"channel": 	4	
+		},
+		{
+			"macAddress": "50:c7:bf:8c:8b:fe",
+			"signalStrength": 	-94	,
+			"channel": 	1	
+		},
+		{
+			"macAddress": "98:fc:11:d0:ac:34",
+			"signalStrength": 	-91	,
+			"channel": 	9	
+		},
+		{
+			"macAddress": "f2:81:7a:7e:ad:3e",
+			"signalStrength": 	-55	,
+			"channel": 	6	
+		},
+		{
+			"macAddress": "f6:a3:3d:37:62:7b",
+			"signalStrength": 	-64	,
+			"channel": 	6	
+		},
+		{
+			"macAddress": "98:fc:11:d0:a8:36",
+			"signalStrength": 	-89	,
+			"channel": 	6	
+		},
+		{
+			"macAddress": "78:ac:c0:87:84:d0",
+			"signalStrength": 	-87	,
+			"channel": 	10	
+		},
+		{
+			"macAddress": "e8:de:27:66:17:ee",
+			"signalStrength": 	-90	,
+			"channel": 	7	
+		},
+		{
+			"macAddress": "2c:b0:5d:38:74:10",
+			"signalStrength": 	-85	,
+			"channel": 	7	
+		},
+	]
+}
