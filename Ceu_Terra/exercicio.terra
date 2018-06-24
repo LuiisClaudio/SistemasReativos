@@ -1,0 +1,289 @@
+#include "/home/terra/TerraNG/terra/TerraNet.defs"
+
+var ushort nodeId = getNodeId();
+pktype usrMsg from radioMsg with
+	var ushort distancia;
+	var ushort src;
+    var ushort leds;
+    var ushort destiny;
+    var ushort found;
+    var ushort owner;
+end
+
+var usrMsg sndData;
+var usrMsg recData;
+var ushort nextStep;
+var ushort distancia = 99;
+var long volts = 1000;
+var long photo = 400;
+var long temp = 500;
+var ubyte state = 0;
+var short valor = 0;
+var ushort partner;
+
+sndData.type=1;
+sndData.target = BROADCAST;
+sndData.source = nodeId;
+
+emit LEDS(OFF);
+
+par do
+	loop do
+    	par/and do
+        	emit REQ_VOLTS();
+        	volts = await VOLTS;
+
+        	if volts > 1010 or volts < 990 then
+            	distancia = 0;
+            	nextStep = 0;
+
+   			 photo = await PHOTO;
+
+   			 sndData.destiny = photo/10;
+
+   			 sndData.owner = nodeId;
+   			 sndData.found = 0;
+            	sndData.distancia = 0;
+            	sndData.src = nodeId;
+   			 partner = sndData.destiny;
+            	emit SEND(sndData);
+            	await SEND_DONE;
+
+        	end    
+    	with
+        	await 10s;
+   	 with
+        	emit REQ_TEMP();
+        	temp = await TEMP;
+
+   		 if nodeId == 11 then
+   	     	if temp > 500 then
+   				 emit REQ_VOLTS();
+   				 volts = await VOLTS;
+
+   				 emit REQ_PHOTO();
+   				 photo = await PHOTO;
+
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+   				 if temp > 100 then
+   					 temp = temp - 100;
+   				 end
+
+
+   				 sndData.leds = temp/10;
+   				 sndData.destiny = partner;
+   				 sndData.found = 2;
+   	         	sndData.src = nodeId;
+   				 sndData.target = nextStep;
+   	         	emit SEND(sndData);
+   	         	await SEND_DONE;
+
+   	     	end
+   		 end   
+    	end
+	end
+with
+	loop do
+    	par/and do
+        	//recebe mensagem da fonte
+        	recData = await RECEIVE;
+   		 if (recData.found == 0) then
+   			 if (recData.destiny == nodeId) then
+   				 sndData.found = 1;
+   				 sndData.target = BROADCAST;
+   				 sndData.src = nodeId;
+   				 sndData.distancia = 0;
+   				 sndData.destiny = recData.owner;
+
+   				 valor = recData.leds;
+   				 if (valor == 1) then
+   					 emit LED2(ON);
+   				 end
+   				 if (valor == 2) then
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 3) then
+   					 emit LED2(ON);
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 4) then
+   					 emit LED0(ON);
+   				 end
+   				 if (valor == 5) then
+   					 emit LED2(ON);
+   					 emit LED0(ON);
+   				 end
+   				 if (valor == 6) then
+   					 emit LED0(ON);
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 7) then
+   					 emit LED2(ON);
+   					 emit LED1(ON);
+   					 emit LED0(ON);
+   				 end   				 
+
+   				 emit SEND(sndData);
+   	         	await SEND_DONE;
+   			 else
+   				 sndData = recData;
+   				 sndData.src = nodeId;
+   				 emit SEND(sndData);
+   	         	await SEND_DONE;
+   			 end   			 
+   		 else/if recData.found == 1 then
+   			 if nodeId == recData.destiny then
+   				 if (recData.distancia + 1 < distancia) then
+   					 nextStep = recData.src;
+   					 distancia = recData.distancia + 1;
+   				 end
+   			 else   			 
+   				 if (recData.distancia + 1 < distancia) then
+   					 nextStep = recData.src;
+   					 distancia = recData.distancia + 1;
+   					 sndData = recData;
+   					 sndData.distancia = distancia;
+   					 sndData.src = nodeId;
+   					 sndData.target = BROADCAST;
+   					 emit SEND(sndData);
+   	        		 await SEND_DONE;
+   				 end
+   			 end
+   		 else
+   			 if nodeId == recData.destiny then
+   				 valor = recData.leds;
+   				 if (valor == 1) then
+   					 emit LED2(ON);
+   				 end
+   				 if (valor == 2) then
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 3) then
+   					 emit LED2(ON);
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 4) then
+   					 emit LED0(ON);
+   				 end
+   				 if (valor == 5) then
+   					 emit LED2(ON);
+   					 emit LED0(ON);
+   				 end
+   				 if (valor == 6) then
+   					 emit LED0(ON);
+   					 emit LED1(ON);
+   				 end
+   				 if (valor == 7) then
+   					 emit LED2(ON);
+   					 emit LED1(ON);
+   					 emit LED0(ON);
+   				 end   			 
+   			 else   			 
+   					 sndData = recData;
+   					 sndData.target = nextStep;
+   					 sndData.src = nodeId;
+   					 emit SEND(sndData);
+   		         	await SEND_DONE;
+   			 end
+   		 end
+    	with
+        	await 10s;
+    	end
+	end
+with
+	loop do
+    	par/and do
+        	inc state;
+        	if (state == 1) then
+            	valor = nextStep/10;
+            	if (valor == 1) then
+   				 emit LED2(ON);
+   			 end
+   			 if (valor == 2) then
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 3) then
+   				 emit LED2(ON);
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 4) then
+   				 emit LED0(ON);
+   			 end
+   			 if (valor == 5) then
+   				 emit LED2(ON);
+   				 emit LED0(ON);
+   			 end
+   			 if (valor == 6) then
+   				 emit LED0(ON);
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 7) then
+   				 emit LED2(ON);
+   				 emit LED1(ON);
+   				 emit LED0(ON);
+   			 end
+        	end
+        	if (state == 2) then
+            	emit LEDS(OFF);
+        	end
+        	if (state == 3) then
+            	valor = nextStep%10;
+   			 if (valor == 1) then
+   				 emit LED2(ON);
+   			 end
+   			 if (valor == 2) then
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 3) then
+   				 emit LED2(ON);
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 4) then
+   				 emit LED0(ON);
+   			 end
+   			 if (valor == 5) then
+   				 emit LED2(ON);
+   				 emit LED0(ON);
+   			 end
+   			 if (valor == 6) then
+   				 emit LED0(ON);
+   				 emit LED1(ON);
+   			 end
+   			 if (valor == 7) then
+   				 emit LED2(ON);
+   				 emit LED1(ON);
+   				 emit LED0(ON);
+   			 end
+
+        	end
+
+        	if (state >= 3) then
+            	state = 0;
+        	end
+    	with
+        	await 10s;
+    	end
+	end
+end
+
+
