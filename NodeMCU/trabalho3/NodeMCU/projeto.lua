@@ -76,7 +76,6 @@ function usaGoogleApi()
 
        
   end
-  wifi.sta.getap(listap)
 
   
 
@@ -175,6 +174,7 @@ function apertou_botao (alarme)
     return "Nao passou o intervalo"
   end
   ultimo = agora
+  wifi.sta.getap(listap)
   usaGoogleApi()
 end
 gpio.trig(alarme1, "down", apertou_botao)
