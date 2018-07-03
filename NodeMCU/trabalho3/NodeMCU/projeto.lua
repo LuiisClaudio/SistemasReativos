@@ -1,3 +1,6 @@
+// Luis Claudio C. Martins
+// Lucas P Nepomuceno
+
 
 led1 = 3
 led2 = 6
